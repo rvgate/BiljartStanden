@@ -1,0 +1,57 @@
+<!doctype html>
+<html ng-app="standenApp">
+<head>
+    <script src="js/jquery-2.2.2.min.js"></script>
+    <script src="js/angular.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/controllers.js"></script>
+    <link rel="stylesheet" href="css/bootstrap.min.css" />
+    <meta name=viewport content="width=device-width,initial-scale=1">
+    <meta charset="utf-8"/>
+</head>
+<body ng-controller="MainCtrl">
+    <nav class="navbar navbar-inverse hidden-print">
+        <div class="container-fluid">
+            <p class="navbar-brand">Biljartstanden</p>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row hidden-print">
+            <div class="col-md-12">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form class="form-inline">
+                            <div class="form-group" ng-class="{'has-error': error}">
+                                <label for="zoeken">Zoeken: </label>
+                                <input type="text" class="form-control" ng-model="query" id="zoeken" placeholder="Almere" value="Almere">
+                            </div>
+                            <button type="submit" class="btn btn-primary" ng-click="fetchStanden()">Go!</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row hidden-print">
+            <div class="col-md-12 text-center" ng-show="loader"><img src="img/loading.gif"/></div>
+        </div>
+        <div class="row" style="page-break-after:always" ng-repeat="stand in standen">
+            <div class="col-md-12">
+                <h2>{{ stand.code }} - {{ stand.competitie }}</h2>
+                <h3>{{ stand.organisatie }} - {{ stand.header }}</h3>
+                <table class="table table-striped table-bordered table-condensed">
+                    <thead>
+                        <tr class="active">
+                            <th ng-repeat="column in stand.stand.columns">{{ column }}</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+			    <tr ng-repeat="row in stand.stand.rows" ng-class="{'info': contains(row, 'Almere')}">
+                            <td ng-repeat="value in row track by $index">{{ value }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
