@@ -9,7 +9,7 @@ standenApp.controller('MainCtrl', function ($scope, $http) {
         });
     };
     $scope.contains = function(json, value) {
-	var json_str = JSON.stringify(json);
-	return json_str.search(value) > -1;
+        var json_str = JSON.stringify(json).toLowerCase();
+        return json_str.search(value.toLowerCase()) > -1;
     };
 });

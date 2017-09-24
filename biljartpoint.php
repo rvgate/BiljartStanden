@@ -3,8 +3,7 @@ include('lib/simple_html_dom.php');
 
 $query = $_GET['query'];
 
-
-function findCompetities($matches){
+function findCompetities($search, $matches){
     $competities = [];
     $url = 'http://biljartpoint.nl/index.php';
     $query = [
@@ -33,7 +32,7 @@ function findCompetities($matches){
                             'code' => $code,
                             'competitie' => $link->innertext,
                             'href' => $link->href,
-                            'stand' => parseStanding($link->href),
+                            'stand' => parseStanding($search, $link->href),
                         ];
                         if($results['stand']) {
                             $competities[]=$results;
@@ -60,7 +59,7 @@ function replaceSpecials($input){
     ], $input);
 }
 
-function parseStanding($page) {
+function parseStanding($search, $page) {
     $rows = [];
     if(strpos($page, "poule=on") !== false){
         return false;
@@ -93,7 +92,7 @@ function parseStanding($page) {
     }
 
     $encoded = json_encode($rows);
-    if(strpos($encoded, "Almere") === false){
+    if(strpos(strtolower($encoded), strtolower($search)) === false){
         return false;
     }
     return [
@@ -102,4 +101,4 @@ function parseStanding($page) {
     ];
 }
 
-echo json_encode(findCompetities(['KNBB Nationale competities', 'KNBB District Eem- en Flevoland']));
+echo json_encode(findCompetities($query, ['KNBB Nationale competities', 'KNBB District Eem- en Flevoland']));

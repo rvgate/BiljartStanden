@@ -23,7 +23,7 @@
                         <form class="form-inline">
                             <div class="form-group" ng-class="{'has-error': error}">
                                 <label for="zoeken">Zoeken: </label>
-                                <input type="text" class="form-control" ng-model="query" id="zoeken" placeholder="Almere" value="Almere">
+                                <input type="text" class="form-control" ng-model="query" id="zoeken" value="Almere">
                             </div>
                             <button type="submit" class="btn btn-primary" ng-click="fetchStanden()">Go!</button>
                         </form>
@@ -45,7 +45,7 @@
                         </tr>
                     </thead>
                     <tbody>
-			    <tr ng-repeat="row in stand.stand.rows" ng-class="{'info': contains(row, 'Almere')}">
+                        <tr ng-repeat="row in stand.stand.rows" ng-class="{'info': contains(row, query)}">
                             <td ng-repeat="value in row track by $index">{{ value }}</td>
                         </tr>
                     </tbody>
